@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE } from '../lib/site'
+const updated = '31 May 2026'
+---
+
+<BaseLayout
+  title="Privacy Policy — The Reel Vault"
+  description="How The Reel Vault handles your data: local-only storage, third-party embeds, and advertising cookies."
+>
+  <div class="section-head">
+    <div><span class="kicker">Your privacy</span><h2>Privacy Policy</h2></div>
+  </div>
+  <p class="type" style="margin-top:-6px">Last updated: {updated}</p>
+
+  <article class="prose" style="margin-top:18px">
+    <p>
+      This policy explains what information {SITE.name} ("we", "us") collects when you use
+      this website, and how it is used. In short: we run no accounts and no database of our
+      own, almost everything stays in your browser, and the only data sent off your device
+      goes to the third parties whose content and services we embed, described below.
+    </p>
+
+    <h3>Information stored on your device</h3>
+    <p>
+      The Reel Vault keeps your <strong>favourites</strong>, your <strong>viewing
+      history</strong> and your <strong>watch progress</strong> in your browser's
+      <code>localStorage</code>. This information never leaves your device and is never
+      transmitted to us — we have no server that could receive it. You can erase it at any
+      time by clearing your browser's site data, or by using the in-app controls (for
+      example, "Clear history").
+    </p>
+
+    <h3>Information we collect directly</h3>
+    <p>
+      None. We do not require registration, we do not ask for personal information, and we
+      do not operate our own analytics or tracking on the server side.
+    </p>
+
+    <h3>Third-party services</h3>
+    <p>We rely on the following third parties, each with its own privacy policy:</p>
+    <ul>
+      <li>
+        <strong>Internet Archive</strong> — films are streamed and images are loaded
+        directly from archive.org. Your browser contacts their servers to play video, and
+        they may log requests as described in their own privacy policy.
+      </li>
+      <li>
+        <strong>Wikipedia / Wikimedia Foundation</strong> — film background information is
+        requested from Wikipedia's public API when you open a title's page.
+      </li>
+      <li>
+        <strong>Google Fonts</strong> — typefaces are loaded from Google's font CDN.
+      </li>
+    </ul>
+    <p>
+      Because video and images load directly from these services, those providers can see
+      your IP address and standard request information. We do not control and are not
+      responsible for their data practices.
+    </p>
+
+    <h3>Advertising</h3>
+    <p>
+      We may display advertising through <strong>Google AdSense</strong>. When advertising
+      is enabled, Google and its partners may use cookies — including the
+      <strong>DoubleClick / DART cookie</strong> — to serve ads based on your visits to this
+      and other websites. Third-party vendors and ad networks may also use cookies, web
+      beacons or similar technologies for the same purpose.
+    </p>
+    <ul>
+      <li>
+        You can opt out of personalised advertising by visiting Google's
+        <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer"
+          >Ads Settings</a
+        >.
+      </li>
+      <li>
+        You can opt out of many third-party vendors' cookies via
+        <a href="https://www.aboutads.info/choices/" target="_blank" rel="noreferrer"
+          >aboutads.info/choices</a
+        > or
+        <a href="https://www.youronlinechoices.eu" target="_blank" rel="noreferrer"
+          >youronlinechoices.eu</a
+        >.
+      </li>
+      <li>
+        More information is available in
+        <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer"
+          >Google's advertising policies</a
+        >.
+      </li>
+    </ul>
+
+    <h3>Your rights (GDPR / CCPA)</h3>
+    <p>
+      Depending on where you live, you may have rights to access, correct or delete personal
+      data, or to object to certain processing. Because we hold no personal data ourselves,
+      most such requests should be directed to the third parties above. For anything within
+      our control, contact us at
+      <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Visitors in the EEA,
+      UK and California: advertising cookies are used only as described above, and you may
+      decline personalised ads using the opt-out links provided.
+    </p>
+
+    <h3>Children</h3>
+    <p>
+      This site is not directed to children under 13, and we do not knowingly collect any
+      information from them.
+    </p>
+
+    <h3>Changes</h3>
+    <p>
+      We may update this policy from time to time. Material changes will be reflected in the
+      "last updated" date above.
+    </p>
+
+    <p style="margin-top:24px">
+      Questions about this policy? Email
+      <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+    </p>
+  </article>
+</BaseLayout>

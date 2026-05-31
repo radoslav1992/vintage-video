@@ -1,6 +1,11 @@
 ---
+import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { MOVIE_GENRES, VIDEO_CATEGORIES } from '../lib/catalog'
+
+const collections = (await getCollection('collections'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4)
 ---
 
 <BaseLayout>
@@ -32,6 +37,28 @@ import { MOVIE_GENRES, VIDEO_CATEGORIES } from '../lib/catalog'
       <a class="more" href="/recent">See all →</a>
     </div>
     <div class="row-scroll" id="recentRow"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">The curator’s shelves</span><h2>Curated Collections</h2></div>
+      <a class="more" href="/collections">See all →</a>
+    </div>
+    <p style="color:var(--ink-soft);max-width:64ch;margin:-4px 0 18px">
+      Guided routes through the vault — each an essay on a corner of film history, with the
+      reels gathered to match.
+    </p>
+    <div class="tile-grid">
+      {
+        collections.map((c) => (
+          <a href={`/collections/${c.slug}`} class="tile" style="min-height:160px">
+            <span class="tile-emoji">{c.data.emoji}</span>
+            <h3>{c.data.title}</h3>
+            <p>{c.data.summary}</p>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
   <section>

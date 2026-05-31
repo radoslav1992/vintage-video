@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Utility / app routes with no standalone indexable content
+Disallow: /search
+Disallow: /watch
+Disallow: /favorites
+Disallow: /recent
+Disallow: /continue
+
+Sitemap: https://thereelvault.example/sitemap.xml

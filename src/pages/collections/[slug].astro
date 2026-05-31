@@ -1,0 +1,61 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+export async function getStaticPaths() {
+  const collections = await getCollection('collections')
+  return collections.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+type Props = { entry: CollectionEntry<'collections'> }
+const { entry } = Astro.props
+const { Content } = await entry.render()
+const d = entry.data
+---
+
+<BaseLayout title={`${d.title} — The Reel Vault`} description={d.summary} ogType="article">
+  <a class="more" href="/collections" style="display:inline-block;margin-bottom:18px"
+    >← All collections</a
+  >
+
+  <header style="max-width:72ch;margin-bottom:8px">
+    <span class="kicker">Collection</span>
+    <h1 style="font-size:clamp(2rem,4vw,3rem);margin-bottom:10px">
+      {d.emoji} {d.title}
+    </h1>
+    {
+      d.pullquote && (
+        <p
+          style="font-family:var(--display);font-style:italic;font-size:1.35rem;color:var(--sepia-deep);border-left:3px solid var(--coral);padding-left:16px;margin:14px 0 0"
+        >
+          “{d.pullquote}”
+        </p>
+      )
+    }
+  </header>
+
+  <article class="prose" style="margin:26px 0 36px">
+    <Content />
+  </article>
+
+  <div class="section-head">
+    <div><span class="kicker">From this collection</span><h2>The reels</h2></div>
+  </div>
+  <div id="collectionFilms" data-query={d.query} data-kind={d.kind}></div>
+
+  {
+    d.updated && (
+      <p class="type" style="margin-top:30px">
+        Curated &amp; written by The Reel Vault · updated {d.updated}
+      </p>
+    )
+  }
+</BaseLayout>
+
+<script>
+  import { initCollection } from '../../scripts/collection'
+  initCollection()
+</script>

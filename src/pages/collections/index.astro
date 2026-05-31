@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const collections = (await getCollection('collections')).sort(
+  (a, b) => a.data.order - b.data.order,
+)
+---
+
+<BaseLayout
+  title="Curated Collections — The Reel Vault"
+  description="Hand-picked, editorially-written collections of classic public-domain film — film noir, atomic-age science fiction, silent comedy, newsreels and more."
+>
+  <div class="section-head">
+    <div><span class="kicker">The curator’s shelves</span><h2>Collections</h2></div>
+  </div>
+  <p style="color:var(--ink-soft);max-width:66ch;margin-top:-6px">
+    Not a catalogue dump but a set of guided routes through the vault — each one an
+    essay on a corner of film history, with the reels gathered to match. Start anywhere.
+  </p>
+
+  <div class="tile-grid" style="margin-top:26px">
+    {
+      collections.map((c) => (
+        <a href={`/collections/${c.slug}`} class="tile" style="min-height:170px">
+          <span class="tile-emoji">{c.data.emoji}</span>
+          <h3>{c.data.title}</h3>
+          <p>{c.data.summary}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

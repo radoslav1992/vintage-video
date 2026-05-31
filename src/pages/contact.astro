@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE } from '../lib/site'
+---
+
+<BaseLayout
+  title="Contact — The Reel Vault"
+  description="Get in touch with The Reel Vault — suggestions, corrections, rights enquiries and takedown requests."
+>
+  <div class="section-head">
+    <div><span class="kicker">Say hello</span><h2>Contact</h2></div>
+  </div>
+
+  <article class="prose" style="margin-top:18px">
+    <p>
+      We are a small, curation-led project and we genuinely like hearing from the people who
+      use the Vault. Whether you have spotted an error, want to suggest a film, or need to
+      raise a rights or takedown matter, the best way to reach us is by email:
+    </p>
+
+    <p style="font-size:1.3rem;margin:18px 0">
+      <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+    </p>
+
+    <h3>What to include</h3>
+    <ul>
+      <li><strong>Suggestions &amp; corrections</strong> — a link to the title and a line on what you noticed.</li>
+      <li>
+        <strong>Rights &amp; takedown requests</strong> — please include the details listed in
+        our <a href="/terms">Terms of Use</a> so we can act quickly.
+      </li>
+      <li><strong>Press or partnership</strong> — tell us a little about what you have in mind.</li>
+    </ul>
+
+    <p>
+      We read everything and aim to reply within a few days. Thank you for helping us keep the
+      projector running.
+    </p>
+  </article>
+</BaseLayout>

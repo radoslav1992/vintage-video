@@ -28,6 +28,25 @@ claude.ai.
 - **Continue Watching** — playback position is saved as you watch, the card
   shows a progress bar, and the watch page offers to resume where you left off.
 - **Search** across the whole moving-image vault, with sorting & pagination.
+- **Curated Collections** — original, editorially-written essays (`src/content/collections/*.md`)
+  that frame a themed set of films. This original writing is what lifts the site
+  above a bare aggregator (and is key to ad-network approval).
+- **SEO & trust pages** — per-page canonical + Open Graph + Twitter tags and
+  JSON-LD, a generated `sitemap.xml`, `robots.txt`, and About / Privacy / Terms /
+  Contact pages. Utility routes (watch, search, favorites…) are `noindex`.
+
+## Before deploying / applying to AdSense
+
+1. Set your real domain in **`astro.config.mjs`** (`site`) and **`src/lib/site.ts`**
+   (`SITE.url`), plus a monitored `SITE.contactEmail`, and update the `Sitemap:`
+   line in `public/robots.txt`.
+2. Verify the copyright status of anything you feature — see the rights note in
+   `src/pages/about.astro` / `terms.astro`. The `query`-based collections pull live
+   from the Archive, so curate accordingly.
+3. Add more original collections under `src/content/collections/` — depth of
+   original content is the single biggest factor in AdSense approval.
+4. Set `SITE.adsensePublisherId` once approved (ad slots are not emitted while
+   it's empty).
 
 ## How watch progress works
 
@@ -73,11 +92,15 @@ src/
               catalog.ts                 — genre/category → query map
               store.ts                   — favorites, history, watch progress
               ui.ts                      — card rendering helpers
-  scripts/    home.ts, browse.ts, watch.ts, library.ts, search.ts
+              site.ts                    — domain / contact / AdSense config
+  content/    collections/*.md           — original editorial collections
+  scripts/    home, browse, watch, library, search, collection
   components/ Navbar.astro, Footer.astro
-  layouts/    BaseLayout.astro
-  pages/      index, movies, videos, watch, favorites,
-              recent, continue, search, 404
+  layouts/    BaseLayout.astro           — SEO meta, OG, JSON-LD
+  pages/      index, movies, videos, watch, favorites, recent,
+              continue, search, 404,
+              collections/[index,slug], about, privacy, terms, contact,
+              sitemap.xml.ts
 ```
 
 All media and metadata are courtesy of the Internet Archive and Wikipedia.

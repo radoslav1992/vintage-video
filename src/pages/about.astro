@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE } from '../lib/site'
+---
+
+<BaseLayout
+  title="About — The Reel Vault"
+  description="The Reel Vault is a curated picture house for classic public-domain film, drawing on the Internet Archive and Wikipedia."
+>
+  <div class="section-head">
+    <div><span class="kicker">Who we are</span><h2>About The Reel Vault</h2></div>
+  </div>
+
+  <article class="prose" style="margin-top:18px">
+    <p>
+      <strong>The Reel Vault</strong> is a curated picture house for the films time forgot.
+      The twentieth century left behind an extraordinary quantity of motion pictures that
+      have since entered the public domain — feature films whose copyrights lapsed,
+      newsreels, cartoons, educational shorts and the everyday ephemera of a hundred years
+      of life. Most of it sits, freely and legally available, in the great open library of
+      the <a href="https://archive.org" target="_blank" rel="noreferrer">Internet Archive</a>.
+      It is wonderful, and it is overwhelming.
+    </p>
+    <p>
+      Our purpose is curation. Rather than dump a search box in front of you, we organise
+      this material into genres and categories, write guided <a href="/collections">collections</a>
+      that put the films in context, and give every title its own page with the story behind
+      it. We want the experience to feel less like trawling a database and more like an
+      evening at a thoughtful repertory cinema.
+    </p>
+
+    <h3>Where the films and facts come from</h3>
+    <p>
+      Every film streams directly from the Internet Archive, which hosts and serves the
+      video. We do not host the films ourselves. The background information on each title is
+      drawn first from <a href="https://wikipedia.org" target="_blank" rel="noreferrer">Wikipedia</a>,
+      and where no article exists we fall back to the description supplied by the Internet
+      Archive. We always tell you which source you are reading, and link back to it.
+    </p>
+    <p>
+      The curation, the collections, the editorial writing and the design are our own.
+      The films and the encyclopaedic facts belong to their creators and to the public, and
+      we are grateful to the Internet Archive and to Wikipedia's contributors for making
+      them available.
+    </p>
+
+    <h3>Your data stays with you</h3>
+    <p>
+      The Reel Vault has no accounts and no server-side database. Your favourites, your
+      viewing history and your place in a half-watched film are stored only in your own
+      browser. We never see them. You can read the details in our
+      <a href="/privacy">Privacy Policy</a>.
+    </p>
+
+    <h3>A note on copyright</h3>
+    <p>
+      We aim to surface material that is in the public domain or otherwise free to view.
+      Copyright status can be complicated, and we rely in part on the metadata provided by
+      our sources. If you hold rights to a work and believe it is being made available in
+      error, please see our <a href="/terms">Terms</a> and
+      <a href="/contact">contact us</a> — we respond promptly to legitimate requests.
+    </p>
+
+    <p style="margin-top:28px">
+      Questions, suggestions or a film we simply have to feature? We would love to hear from
+      you at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+    </p>
+  </article>
+</BaseLayout>

@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE } from '../lib/site'
+const updated = '31 May 2026'
+---
+
+<BaseLayout
+  title="Terms of Use — The Reel Vault"
+  description="The terms governing your use of The Reel Vault, including third-party content, disclaimers and takedown requests."
+>
+  <div class="section-head">
+    <div><span class="kicker">The fine print</span><h2>Terms of Use</h2></div>
+  </div>
+  <p class="type" style="margin-top:-6px">Last updated: {updated}</p>
+
+  <article class="prose" style="margin-top:18px">
+    <p>
+      By using {SITE.name} (the "Site") you agree to these terms. If you do not agree, please
+      do not use the Site.
+    </p>
+
+    <h3>The service</h3>
+    <p>
+      The Reel Vault is a free, curated guide to public-domain and freely-available film. We
+      organise and provide commentary on material that is hosted and streamed by third
+      parties — principally the Internet Archive. We do not host the films ourselves, and we
+      provide the Site on an "as is" and "as available" basis.
+    </p>
+
+    <h3>Third-party content</h3>
+    <p>
+      Films, video, images and much of the descriptive text are supplied by third parties,
+      including the Internet Archive and Wikipedia. We do not own this material and make no
+      representation about its accuracy, completeness or copyright status beyond the metadata
+      those sources provide. Your use of third-party content may also be subject to the terms
+      of the service that hosts it.
+    </p>
+
+    <h3>Copyright and takedown requests</h3>
+    <p>
+      We aim to feature only works that are in the public domain or otherwise free to view.
+      If you are a rights holder and believe a work has been linked or described here in a way
+      that infringes your rights, please contact us at
+      <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> with: (1) identification
+      of the work, (2) the URL on this Site, (3) your contact details, and (4) a statement of
+      your good-faith belief and authority to act. Because the underlying file is hosted by a
+      third party, you may also wish to contact that host directly. We will respond to valid
+      requests promptly, including by removing links where appropriate.
+    </p>
+
+    <h3>Acceptable use</h3>
+    <p>
+      You agree not to misuse the Site: no attempting to disrupt it, no automated scraping
+      that places an unreasonable load on it or on the third-party services it links to, and
+      no use that violates applicable law.
+    </p>
+
+    <h3>Disclaimer of warranties</h3>
+    <p>
+      The Site is provided without warranties of any kind, express or implied. We do not
+      guarantee that any particular film will be available, that information will be accurate,
+      or that the Site will be uninterrupted or error-free. Availability of any title depends
+      entirely on the third party that hosts it.
+    </p>
+
+    <h3>Limitation of liability</h3>
+    <p>
+      To the fullest extent permitted by law, {SITE.name} will not be liable for any indirect,
+      incidental or consequential damages arising from your use of, or inability to use, the
+      Site or any third-party content reached through it.
+    </p>
+
+    <h3>Changes</h3>
+    <p>
+      We may revise these terms from time to time. Continued use of the Site after changes
+      take effect constitutes acceptance of the revised terms.
+    </p>
+
+    <p style="margin-top:24px">
+      Questions? Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+    </p>
+  </article>
+</BaseLayout>

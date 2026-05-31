@@ -1,16 +1,36 @@
 ---
 import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro'
+import { SITE } from '../lib/site'
 import '../styles/global.css'
 
 interface Props {
   title?: string
   description?: string
+  /** Page type for Open Graph; defaults to "website". */
+  ogType?: string
+  /** When false, ask crawlers not to index (e.g. utility pages). */
+  index?: boolean
 }
 const {
-  title = 'The Reel Vault — Vintage Cinema Archive',
-  description = 'A vintage picture house for classic public-domain movies and old films, streaming free from the Internet Archive.',
+  title,
+  description = SITE.description,
+  ogType = 'website',
+  index = true,
 } = Astro.props
+
+const pageTitle = title ? `${title}` : `${SITE.name} — ${SITE.tagline}`
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href
+
+// Organisation / site structured data for richer search listings.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  alternateName: SITE.tagline,
+  url: SITE.url,
+  description: SITE.description,
+}
 ---
 
 <!doctype html>
@@ -19,14 +39,32 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/reel.svg" />
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {!index && <meta name="robots" content="noindex,follow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/reel.svg', SITE.url).href} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Special+Elite&display=swap"
       rel="stylesheet"
     />
-    <title>{title}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <div class="app-shell">
