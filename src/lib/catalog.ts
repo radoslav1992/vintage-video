@@ -1,11 +1,18 @@
 // =====================================================================
 // The catalogue: movie genres and video categories.
-// Each entry maps a human label to an Internet Archive search query.
-// Queries lean on a mix of curated collections and subject terms so they
-// stay populated even when a single collection is sparse.
+// Each maps a human label to an Internet Archive search query, blending
+// curated collections with subject terms so results stay populated.
 // =====================================================================
 
-export const MOVIE_GENRES = [
+export interface Group {
+  id: string
+  label: string
+  emoji: string
+  blurb: string
+  query: string
+}
+
+export const MOVIE_GENRES: Group[] = [
   {
     id: 'all',
     label: 'Feature Films',
@@ -25,7 +32,8 @@ export const MOVIE_GENRES = [
     label: 'Sci-Fi & Horror',
     emoji: '👽',
     blurb: 'Monsters, rockets and midnight chills.',
-    query: 'collection:(SciFi_Horror) OR (mediatype:(movies) AND subject:(horror OR science fiction))',
+    query:
+      'collection:(SciFi_Horror) OR (mediatype:(movies) AND subject:(horror OR science fiction))',
   },
   {
     id: 'comedy',
@@ -60,11 +68,12 @@ export const MOVIE_GENRES = [
     label: 'Animation',
     emoji: '✏️',
     blurb: 'Hand-drawn cartoons & cel artistry.',
-    query: 'collection:(classic_cartoons) OR (mediatype:(movies) AND subject:(animation OR cartoon))',
+    query:
+      'collection:(classic_cartoons) OR (mediatype:(movies) AND subject:(animation OR cartoon))',
   },
 ]
 
-export const VIDEO_CATEGORIES = [
+export const VIDEO_CATEGORIES: Group[] = [
   {
     id: 'newsreels',
     label: 'Newsreels',
@@ -91,7 +100,8 @@ export const VIDEO_CATEGORIES = [
     label: 'Advertising',
     emoji: '📺',
     blurb: 'Vintage commercials and sponsored films.',
-    query: 'collection:(classic_tv_commercials) OR (mediatype:(movies) AND subject:(advertising OR commercial))',
+    query:
+      'collection:(classic_tv_commercials) OR (mediatype:(movies) AND subject:(advertising OR commercial))',
   },
   {
     id: 'television',
@@ -123,9 +133,6 @@ export const VIDEO_CATEGORIES = [
   },
 ]
 
-export function findGenre(id) {
-  return MOVIE_GENRES.find((g) => g.id === id)
-}
-export function findCategory(id) {
-  return VIDEO_CATEGORIES.find((c) => c.id === id)
+export function findGroup(groups: Group[], id: string | null): Group {
+  return groups.find((g) => g.id === id) || groups[0]
 }

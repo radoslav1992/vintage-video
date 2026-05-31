@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Movies — The Reel Vault">
+  <div class="section-head">
+    <div><span class="kicker">The feature presentation</span><h2>Movies</h2></div>
+  </div>
+  <p style="color:var(--ink-soft);max-width:64ch;margin-top:-6px">
+    Full-length motion pictures from the public domain, sorted by genre. Pick a marquee below.
+  </p>
+
+  <div class="chip-row" id="chips"></div>
+
+  <div class="toolbar">
+    <p class="type" id="count" style="margin:0">Searching the vault…</p>
+    <label style="display:inline-flex;align-items:center;gap:8px">
+      <span class="type">Sort</span>
+      <select id="sortSelect"></select>
+    </label>
+  </div>
+
+  <div id="results"></div>
+  <div class="pager" id="pager"></div>
+</BaseLayout>
+
+<script>
+  import { initBrowse } from '../scripts/browse'
+  initBrowse('movie', 'genre')
+</script>

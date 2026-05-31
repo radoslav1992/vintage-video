@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Now Playing — The Reel Vault">
+  <article id="watchRoot">
+    <div class="spinner" role="status" aria-label="Loading"></div>
+  </article>
+</BaseLayout>
+
+<script>
+  import { initWatch } from '../scripts/watch'
+  initWatch()
+</script>

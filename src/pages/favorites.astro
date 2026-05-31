@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Favorites — The Reel Vault">
+  <div class="section-head">
+    <div><span class="kicker">Your private collection</span><h2>Favorites</h2></div>
+  </div>
+  <div id="libGrid" class="grid"></div>
+</BaseLayout>
+
+<script>
+  import { initLibrary } from '../scripts/library'
+  initLibrary('favorites')
+</script>

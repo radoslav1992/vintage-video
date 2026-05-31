@@ -1,9 +1,10 @@
 node_modules
 dist
-dist-ssr
+.astro
 *.local
 .DS_Store
-.vite
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.env
+.env.production

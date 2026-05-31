@@ -1,30 +1,33 @@
 // =====================================================================
-// Wikipedia API client
-// Uses the public MediaWiki search + REST summary endpoints (CORS enabled
-// via origin=*). No key required.
+// Wikipedia API client (browser-side)
+// MediaWiki search + REST summary endpoints (CORS via origin=*). No key.
 // =====================================================================
+
+export interface WikiInfo {
+  title: string
+  extract: string
+  thumbnail?: string
+  description?: string
+  url: string
+  isDisambiguation?: boolean
+}
 
 const API = 'https://en.wikipedia.org/w/api.php'
 const REST = 'https://en.wikipedia.org/api/rest_v1/page/summary'
 
 /**
- * Try to find a Wikipedia article matching a title (optionally a film of a
- * given year) and return its summary.
- *
- * @param {string} title
- * @param {{ year?: string|number, type?: 'movie'|'video' }} opts
- * @returns {Promise<null | {
- *   title: string, extract: string, thumbnail?: string,
- *   url: string, description?: string
- * }>}
+ * Find a Wikipedia article for a title (optionally a film of a given year)
+ * and return its summary, or null when nothing suitable is found.
  */
-export async function getWikipediaInfo(title, opts = {}) {
+export async function getWikipediaInfo(
+  title: string,
+  opts: { year?: string | number; type?: 'movie' | 'video' } = {},
+): Promise<WikiInfo | null> {
   if (!title) return null
   const clean = normalizeTitle(title)
   const { year, type = 'movie' } = opts
 
-  // Build a few candidate search phrases, most specific first.
-  const candidates = []
+  const candidates: string[] = []
   if (type === 'movie') {
     if (year) candidates.push(`${clean} ${year} film`)
     candidates.push(`${clean} film`)
@@ -42,7 +45,7 @@ export async function getWikipediaInfo(title, opts = {}) {
   return null
 }
 
-async function searchTopTitle(phrase) {
+async function searchTopTitle(phrase: string): Promise<string | null> {
   const params = new URLSearchParams({
     action: 'query',
     list: 'search',
@@ -62,7 +65,7 @@ async function searchTopTitle(phrase) {
   }
 }
 
-async function fetchSummary(pageTitle) {
+async function fetchSummary(pageTitle: string): Promise<WikiInfo | null> {
   try {
     const res = await fetch(`${REST}/${encodeURIComponent(pageTitle)}`, {
       headers: { Accept: 'application/json' },
@@ -84,10 +87,9 @@ async function fetchSummary(pageTitle) {
   }
 }
 
-// Strip common Archive title noise so the Wikipedia search lands cleaner.
-function normalizeTitle(title) {
+function normalizeTitle(title: string): string {
   return String(title)
-    .replace(/\([^)]*\)/g, '') // (1952), (Color), etc.
+    .replace(/\([^)]*\)/g, '')
     .replace(/\[[^\]]*\]/g, '')
     .replace(/\b(19|20)\d{2}\b/g, '')
     .replace(/\b(full movie|feature film|color|b&w|hd|restored)\b/gi, '')

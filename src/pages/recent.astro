@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Recently Viewed — The Reel Vault">
+  <div class="section-head">
+    <div><span class="kicker">The projection log</span><h2>Recently Viewed</h2></div>
+    <button class="more" id="clearBtn" type="button">Clear history</button>
+  </div>
+  <div id="libGrid" class="grid"></div>
+</BaseLayout>
+
+<script>
+  import { initLibrary } from '../scripts/library'
+  initLibrary('recent')
+</script>

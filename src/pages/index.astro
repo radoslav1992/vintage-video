@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { MOVIE_GENRES, VIDEO_CATEGORIES } from '../lib/catalog'
+---
+
+<BaseLayout>
+  <section class="hero">
+    <span class="kicker">Reel by reel · since the silver age</span>
+    <h1>A picture house for the films time forgot.</h1>
+    <p>
+      Wander the stacks of the public-domain vault — feature films, newsreels,
+      cartoons and curiosities, all streaming free from the Internet Archive,
+      with the stories behind them drawn from Wikipedia.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="/movies">Browse Movies</a>
+      <a class="btn ghost" href="/videos">Browse Videos</a>
+    </div>
+  </section>
+
+  <section id="continueSection" style="display:none">
+    <div class="section-head">
+      <div><span class="kicker">Press play again</span><h2>Continue Watching</h2></div>
+      <a class="more" href="/continue">See all →</a>
+    </div>
+    <div class="row-scroll" id="continueRow"></div>
+  </section>
+
+  <section id="recentSection" style="display:none">
+    <div class="section-head">
+      <div><span class="kicker">Pick up where you left off</span><h2>Recently Viewed</h2></div>
+      <a class="more" href="/recent">See all →</a>
+    </div>
+    <div class="row-scroll" id="recentRow"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">Now showing</span><h2>Popular Feature Films</h2></div>
+      <a class="more" href="/movies">See all →</a>
+    </div>
+    <div class="row-scroll" id="rowPopular"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">From the projection booth</span><h2>Film Noir</h2></div>
+      <a class="more" href="/movies?genre=noir">See all →</a>
+    </div>
+    <div class="row-scroll" id="rowNoir"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">Saturday matinee</span><h2>Sci-Fi &amp; Horror</h2></div>
+      <a class="more" href="/movies?genre=scifi-horror">See all →</a>
+    </div>
+    <div class="row-scroll" id="rowScifi"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">By the reel</span><h2>Movie Genres</h2></div>
+    </div>
+    <div class="tile-grid">
+      {
+        MOVIE_GENRES.map((g) => (
+          <a href={`/movies?genre=${g.id}`} class="tile">
+            <span class="tile-emoji">{g.emoji}</span>
+            <h3>{g.label}</h3>
+            <p>{g.blurb}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">From the vaults</span><h2>Ephemeral &amp; Home Movies</h2></div>
+      <a class="more" href="/videos?category=ephemeral">See all →</a>
+    </div>
+    <div class="row-scroll" id="rowEphemeral"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span class="kicker">Beyond the feature</span><h2>Video Categories</h2></div>
+    </div>
+    <div class="tile-grid">
+      {
+        VIDEO_CATEGORIES.map((c) => (
+          <a href={`/videos?category=${c.id}`} class="tile">
+            <span class="tile-emoji">{c.emoji}</span>
+            <h3>{c.label}</h3>
+            <p>{c.blurb}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { initHome } from '../scripts/home'
+  initHome()
+</script>

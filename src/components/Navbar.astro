@@ -1,0 +1,54 @@
+---
+const links = [
+  { href: '/movies', label: 'Movies' },
+  { href: '/videos', label: 'Videos' },
+  { href: '/continue', label: 'Continue' },
+  { href: '/favorites', label: 'Favorites' },
+  { href: '/recent', label: 'Recently Viewed' },
+]
+const path = Astro.url.pathname
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/')
+---
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="/" class="brand">
+      <img class="brand-mark" src="/reel.svg" alt="" />
+      <span>
+        <span class="brand-name">The Reel Vault</span><br />
+        <span class="brand-sub">Vintage Cinema Archive</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+
+    <nav class="nav" id="nav">
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]}>
+            {l.label}
+          </a>
+        ))
+      }
+      <form class="searchbar" id="searchForm">
+        <input type="search" id="searchInput" placeholder="Search the vault…" aria-label="Search films" />
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('navToggle')
+  const nav = document.getElementById('nav')
+  toggle?.addEventListener('click', () => nav?.classList.toggle('open'))
+
+  const form = document.getElementById('searchForm') as HTMLFormElement | null
+  const input = document.getElementById('searchInput') as HTMLInputElement | null
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const term = input?.value.trim()
+    if (term) window.location.href = `/search?q=${encodeURIComponent(term)}`
+  })
+</script>

@@ -5,58 +5,79 @@ A vintage picture house for browsing and streaming classic, public-domain
 with each title's story enriched from **Wikipedia** (falling back to the
 Archive's own description when no article exists).
 
+Built with **[Astro](https://astro.build)** as a **fully client-side static
+site** — there is no server. Every page is a static HTML shell; all dynamic
+data (search, metadata, Wikipedia) is fetched in the browser, and your
+**favorites, viewing history and watch progress** live in `localStorage`.
+
 The interface marries a vintage-cinema look — sepia tones, film grain,
 typewriter type and marquee serifs — with the warm, paper-cream calm of
 claude.ai.
 
 ## Features
 
-- **Separate Movies & Videos screens** — features in one wing, newsreels,
-  commercials, educational shorts and ephemera in the other.
+- **Separate Movies & Videos screens** — features in one wing; newsreels,
+  commercials, educational shorts, ephemera and more in the other.
 - **Genres & categories** — Film Noir, Sci-Fi & Horror, Westerns, Silent Era,
-  Animation… plus Newsreels, Documentaries, Travelogues and more, each backed
+  Animation… plus Newsreels, Documentaries, Travelogues, and more, each backed
   by a curated Internet Archive query.
-- **Per-title pages** with an embedded player, full metadata, and an *About*
-  section sourced from Wikipedia (or the Internet Archive as fallback).
-- **Favorites** — star any reel; kept in `localStorage`.
+- **Per-title pages** with a native `<video>` player, full metadata, and an
+  *About* section sourced from Wikipedia (or the Internet Archive as fallback).
+- **Favorites** ★ — star any reel; saved in `localStorage`.
 - **Recently Viewed** — your projection log, remembered across visits.
-- **Search** across the whole moving-image vault.
-- **Sorting & pagination** on every browse screen.
+- **Continue Watching** — playback position is saved as you watch, the card
+  shows a progress bar, and the watch page offers to resume where you left off.
+- **Search** across the whole moving-image vault, with sorting & pagination.
+
+## How watch progress works
+
+The detail page streams the Archive's MP4 directly through a native HTML
+`<video>` element (rather than the Archive's `<iframe>` embed). That lets the
+app listen to `timeupdate` and persist `{ seconds, duration }` per title to
+`localStorage`. On return, it seeks back to your position and shows a "Resuming
+…" bar; once a film is ~94% watched it's considered finished and cleared from
+Continue Watching. Titles without a direct MP4 fall back to the embed player
+(without progress tracking).
 
 ## Tech
 
-- React 18 + Vite
-- React Router 6
+- [Astro](https://astro.build) 4 — static output, zero SSR
+- TypeScript islands (no UI framework runtime)
 - Internet Archive [advanced search](https://archive.org/advancedsearch.php)
   & [metadata](https://archive.org/developers/md-read.html) APIs
 - Wikipedia MediaWiki search + REST summary APIs
-- No API keys, no backend — favorites/history live in the browser.
+- No API keys, no backend, no tracking.
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run dev       # http://localhost:4321
 ```
 
-Build for production:
+Build / preview the static site:
 
 ```bash
-npm run build
+npm run build     # outputs to dist/
 npm run preview
 ```
+
+The `dist/` folder is plain static files — deploy it to any static host
+(GitHub Pages, Netlify, Cloudflare Pages, S3…).
 
 ## Project layout
 
 ```
 src/
-  api/         archive.js, wikipedia.js      — external API clients
-  components/  Navbar, Layout, VideoCard, VideoGrid, Row, Spinner
-  context/     LibraryContext.jsx            — favorites + recently viewed
-  data/        catalog.js                    — genre/category → query map
-  hooks/       useArchiveSearch.js
-  pages/       Home, Movies, Videos, BrowsePage, Detail,
-               Favorites, Recent, Search, NotFound
+  lib/        archive.ts, wikipedia.ts   — external API clients
+              catalog.ts                 — genre/category → query map
+              store.ts                   — favorites, history, watch progress
+              ui.ts                      — card rendering helpers
+  scripts/    home.ts, browse.ts, watch.ts, library.ts, search.ts
+  components/ Navbar.astro, Footer.astro
+  layouts/    BaseLayout.astro
+  pages/      index, movies, videos, watch, favorites,
+              recent, continue, search, 404
 ```
 
 All media and metadata are courtesy of the Internet Archive and Wikipedia.

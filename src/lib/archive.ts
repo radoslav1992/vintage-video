@@ -1,13 +1,40 @@
 // =====================================================================
-// Internet Archive API client
-// Docs: https://archive.org/developers/
-// All endpoints are public, key-less, and CORS-enabled.
+// Internet Archive API client (browser-side)
+// Docs: https://archive.org/developers/ — public, key-less, CORS-enabled.
 // =====================================================================
+
+export interface ArchiveDoc {
+  identifier: string
+  title: string
+  description: string
+  year?: string
+  creator?: string
+  downloads: number
+  mediatype?: string
+  subject: string[]
+  collection: string[]
+}
+
+export interface ArchiveMeta {
+  identifier: string
+  title: string
+  description: string
+  creator?: string
+  year?: string
+  date?: string
+  runtime?: string
+  director?: string
+  language?: string
+  subject: string[]
+  collection: string[]
+  licenseUrl?: string
+  /** Best direct-streaming video file (mp4 preferred) for native playback. */
+  videoFile: string | null
+}
 
 const SEARCH_URL = 'https://archive.org/advancedsearch.php'
 const META_URL = 'https://archive.org/metadata'
 
-// Fields we ask the search index to return.
 const FIELDS = [
   'identifier',
   'title',
@@ -22,31 +49,25 @@ const FIELDS = [
   'runtime',
 ]
 
-/** Thumbnail image served by the Archive for any item. */
-export function thumbUrl(identifier) {
+export function thumbUrl(identifier: string): string {
   return `https://archive.org/services/img/${identifier}`
 }
 
-/** Embeddable player URL — handles video formats + subtitles for us. */
-export function embedUrl(identifier) {
+export function embedUrl(identifier: string): string {
   return `https://archive.org/embed/${identifier}`
 }
 
-/** Public details page on archive.org. */
-export function detailsUrl(identifier) {
+export function detailsUrl(identifier: string): string {
   return `https://archive.org/details/${identifier}`
 }
 
-/**
- * Run an advanced search.
- * @returns {{ docs: Array, total: number }}
- */
-export async function search({
-  query,
-  rows = 24,
-  page = 1,
-  sort = 'downloads desc',
-} = {}) {
+export async function search(opts: {
+  query: string
+  rows?: number
+  page?: number
+  sort?: string
+}): Promise<{ docs: ArchiveDoc[]; total: number }> {
+  const { query, rows = 24, page = 1, sort = 'downloads desc' } = opts
   const params = new URLSearchParams()
   params.set('q', query)
   FIELDS.forEach((f) => params.append('fl[]', f))
@@ -65,15 +86,13 @@ export async function search({
   }
 }
 
-/** Fetch the full metadata record for a single item. */
-export async function getMetadata(identifier) {
+export async function getMetadata(identifier: string): Promise<ArchiveMeta> {
   const res = await fetch(`${META_URL}/${identifier}`)
   if (!res.ok) throw new Error(`Archive metadata failed (${res.status})`)
   const data = await res.json()
   const meta = data.metadata || {}
 
-  // Find a sensible playable video file (mp4 preferred).
-  const files = Array.isArray(data.files) ? data.files : []
+  const files: any[] = Array.isArray(data.files) ? data.files : []
   const videoFile =
     files.find((f) => /\.mp4$/i.test(f.name) && f.source !== 'original') ||
     files.find((f) => /\.mp4$/i.test(f.name)) ||
@@ -95,13 +114,12 @@ export async function getMetadata(identifier) {
     videoFile: videoFile
       ? `https://archive.org/download/${identifier}/${encodeURIComponent(videoFile.name)}`
       : null,
-    raw: meta,
   }
 }
 
 // ---- helpers ----------------------------------------------------------
 
-function normalizeDoc(doc) {
+function normalizeDoc(doc: any): ArchiveDoc {
   return {
     identifier: doc.identifier,
     title: pickOne(doc.title) || doc.identifier,
@@ -115,25 +133,23 @@ function normalizeDoc(doc) {
   }
 }
 
-function pickOne(v) {
-  if (Array.isArray(v)) return v[0]
-  return v
+function pickOne(v: any): any {
+  return Array.isArray(v) ? v[0] : v
 }
 
-function toArray(v) {
+function toArray(v: any): string[] {
   if (!v) return []
   return Array.isArray(v) ? v : [v]
 }
 
-function extractYear(date) {
+function extractYear(date: any): string | undefined {
   if (!date) return undefined
   const m = String(date).match(/\d{4}/)
   return m ? m[0] : undefined
 }
 
-// Archive descriptions sometimes contain raw HTML — strip tags for safe
-// rendering as plain text.
-function cleanDescription(desc) {
+// Archive descriptions sometimes contain HTML — strip to plain text.
+function cleanDescription(desc: any): string {
   if (!desc) return ''
   return String(desc)
     .replace(/<br\s*\/?>/gi, '\n')

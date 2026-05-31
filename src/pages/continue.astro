@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Continue Watching — The Reel Vault">
+  <div class="section-head">
+    <div><span class="kicker">Press play again</span><h2>Continue Watching</h2></div>
+  </div>
+  <p style="color:var(--ink-soft);max-width:64ch;margin-top:-6px">
+    Films you’ve started are saved here with your place kept — pick up exactly where you left off.
+  </p>
+  <div id="libGrid" class="grid"></div>
+</BaseLayout>
+
+<script>
+  import { initLibrary } from '../scripts/library'
+  initLibrary('continue')
+</script>
